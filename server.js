@@ -8,13 +8,12 @@ const database = require('./Develop/db/db.json');
 //
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 //routes
 
-const apiRoutes = require('./routes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes');
-const { ConsoleWriter } = require('istanbul-lib-report');
+const apiRoutes = require('./routes/apiRoutes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes/htmlRoutes');
 
 //listening
 
