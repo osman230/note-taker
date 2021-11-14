@@ -1,17 +1,23 @@
+const fs = require('fs');
 const express = require('express');
-
-const PORT = process.env.PORT || 3001;
 const app = express();
-const apiRoutes = require('./routes/apiRoutes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes/htmlRoutes');
+const PORT = proces.env.PORT || 3000;
+const database = require('./Develop/db/db.json');
 
-app.use(express.urlencoded({ extended: true }));
+
+//
 app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 app.use(express.static('public'));
 
-app.use('/api', apiRoutes);
-app.use('/', htmlRoutes);
+//routes
 
-app.listen(PORT, () => {
-    console.log(`API server now on port ${PORT}!`);
+const apiRoutes = require('./routes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes');
+const { ConsoleWriter } = require('istanbul-lib-report');
+
+//listening
+
+app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
 });
