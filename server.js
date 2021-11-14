@@ -1,7 +1,7 @@
 const fs = require('fs');
 const express = require('express');
-const app = express();
 const PORT = proces.env.PORT || 3001;
+const app = express();
 const database = require('./Develop/db/db.json');
 const { util } = require('prettier');
 
@@ -55,6 +55,6 @@ app.delete("/api/notes/:id", function(request, respond) {
 
 //listening
 
-app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
-});
+app.listen(PORT, () => {
+    console.log(`API server now on port ${PORT}!`);
+  });
