@@ -1,60 +1,78 @@
-const fs = require('fs');
-const express = require('express');
-const PORT = process.env.PORT || 3001;
-const app = express();
-const database = require('./Develop/db/db.json');
-const { util } = require('prettier');
+// This sets up the basic properties for our express server
+var express = require("express");
+var path = require("path");
+var fs = require('fs');
+var util = require('util');
 
+// Tells node that we are creating an "express" server
+var app = express();
 
-//
+// Sets an initial port. We"ll use this later in our listener
+var PORT = process.env.PORT || 8000;
+
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "./public")));
 
-//routes
+//Set variables
+const writefileAsync = util.promisify(fs.writeFile);
+const readFileAsync = util.promisify(fs.readFile);
+let allNotes;
 
-                //HTML
-
-app.get('/notes', (request, respond) => {
-    respond.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
-});
-app.get('*', (request,respond) => {
-    respond.sendFile(pathFile(__dirname, "./Develop/public/index.html"));
-});
-app.get('/index', (request, respond) => {
-    respond.sendFile(pathFile(__dirname, './Develop/public/index.html'));
+// ROUTER
+// The below points our server to set up routes
+app.get("/notes", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
-
-                //API
-
-app.get("/api/notes", function(request, respond) {
+app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
-const notes = JSON.parse(fs.readFileSync(database), 'utf8');
-const noteInfo = (notes.length).toString();
-
-app.post("/api/notes", function(request, respond) {
-    let addTask = req.body;
-    addTask.id = noteInfo;
-    notes.push(addTask);
-    fs.writeFileSync((database), JSON.stringify(notes));
-    respond.json(notes);
+app.get("/api/notes", function (req, res) {
+    readFileAsync(path.join(__dirname, "./db/db.json"), "utf8")
+        .then(function (data) {
+            return res.json(JSON.parse(data));
+        });
 });
 
-app.delete("/api/notes/:id", function(request, respond) {
-    let deleteTask = (req.params.id).toString();
-    notes = notes.filter(selected => {
-        return selected.id != deleteTask; 
-    });
-    fs.writeFileSync((database), JSON.stringify(notes));
-    respond.json(notes);
+app.post("/api/notes", function (req, res) {
+    var newNote = req.body;
+    readFileAsync(path.join(__dirname, "./db/db.json"), "utf8")
+        .then(function (data) {
+            allNotes = JSON.parse(data);
+            if (newNote.id || newNote.id === 0) {
+                let currNote = allNotes[newNote.id];
+                currNote.title = newNote.title;
+                currNote.text = newNote.text;
+            } else {
+                allNotes.push(newNote);
+            }
+            writefileAsync(path.join(__dirname, "./db/db.json"), JSON.stringify(allNotes))
+                .then(function () {
+                    console.log("Wrote db.json");
+                })
+        });
+    res.json(newNote);
 });
 
+app.delete("/api/notes/:id", function (req, res) {
+    var id = req.params.id;
+    readFileAsync(path.join(__dirname, "./db/db.json"), "utf8")
+        .then(function (data) {
+            allNotes = JSON.parse(data);
+            allNotes.splice(id, 1);
+            writefileAsync(path.join(__dirname, "./db/db.json"), JSON.stringify(allNotes))
+                .then(function () {
+                    console.log("Deleted db.json");
+                })
+        });
+    res.json(id);
+});
 
-
-//listening
-
-app.listen(PORT, () => {
-    console.log(`API server now on port ${PORT}!`);
-  });
+// LISTENER
+// The below code effectively "starts" our server
+app.listen(PORT, function () {
+    console.log("App listening on PORT: " + PORT);
+});
