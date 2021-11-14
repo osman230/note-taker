@@ -1,6 +1,6 @@
 const fs = require('fs');
 const express = require('express');
-const PORT = proces.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 const database = require('./Develop/db/db.json');
 const { util } = require('prettier');
