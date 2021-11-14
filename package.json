@@ -11,7 +11,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "heroku": "^7.59.1",
-    "node": "^17.1.0",
+    "node": "16.x",
     "node.js": "^0.0.1-security"
   }
 }
