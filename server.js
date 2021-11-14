@@ -12,8 +12,8 @@ app.use(express.static("public"));
 
 //routes
 
-const apiRoutes = require('./routes/apiRoutes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes/htmlRoutes');
+require('./routes/apiRoutes/apiRoutes');
+require('./routes/htmlRoutes/htmlRoutes');
 
 //listening
 
