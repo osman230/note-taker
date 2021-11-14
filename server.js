@@ -1,7 +1,7 @@
 const fs = require('fs');
 const express = require('express');
 const app = express();
-const PORT = proces.env.PORT || 3000;
+const PORT = proces.env.PORT || 3001;
 const database = require('./Develop/db/db.json');
 const { util } = require('prettier');
 
