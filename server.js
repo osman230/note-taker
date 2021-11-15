@@ -5,7 +5,7 @@ const app = express();
 //
 app.use(express.json());
 app.use(express.static('public'));
-app.use(express.urlendcoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 //listening
 app.listen(3001, () => {
