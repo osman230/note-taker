@@ -21,11 +21,4 @@ module_exports = function(app) {
         fs.writeFile('./develop/db/db.json');
         res.json(req.body)
     });
-
-    app.delete('./develop/public/assets/notes.html/:id', function(req,res) {
-        fs.readFile('./develop/db/db/json');
-
-        fs.writeFile('./develop/db/db.json', JSON.stringify(newData));
-        res.json(newData);
-    });
 };
