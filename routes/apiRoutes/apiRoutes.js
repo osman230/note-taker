@@ -10,12 +10,12 @@ const task = JSON.parse()
 const newData = task.filter(({id}) => id !== data);
 //
 module_exports = function(app) {
-    app.get("/notes.html", function(req,res) {
+    app.get("/api/notes", function(req,res) {
         fs.readFile(database);
     });
 
-    app.post("/notes.html", function(req,res) {
-        fs.readFile('/db/db.json');
+    app.post("/api/notes", function(req,res) {
+        fs.readFile('./db/db/json');
         JSON.parse(data).push(req.body);
 
         fs.writeFile('/db/db.json');
