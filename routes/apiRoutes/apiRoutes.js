@@ -10,15 +10,15 @@ const task = JSON.parse()
 const newData = task.filter(({id}) => id !== data);
 //
 module_exports = function(app) {
-    app.get("./develop/public/assets/notes.html", function(req,res) {
+    app.get("/notes.html", function(req,res) {
         fs.readFile(database);
     });
 
-    app.post("./develop/public/assets/notes.html", function(req,res) {
-        fs.readFile('./develop/db/db.json');
+    app.post("/notes.html", function(req,res) {
+        fs.readFile('/db/db.json');
         JSON.parse(data).push(req.body);
 
-        fs.writeFile('./develop/db/db.json');
+        fs.writeFile('/db/db.json');
         res.json(req.body)
     });
 };
