@@ -1,24 +1,24 @@
-const fs = require('fs');
-const express = require('express');
+const router = require('express').Router();
+// const express = require('express');
 const path = require('path');
 const database = require('./db/db.json');
 
 //
 const newTask = req.body;
 const data = req.param.id;
-const task = JSON.parse()
-const newData = task.filter(({id}) => id !== data);
+// const task = JSON.parse()
+// const newData = task.filter(({id}) => id !== data);
 //
-module_exports = function(app) {
-    app.get("/api/notes", function(req,res) {
-        fs.readFile(database);
+
+router.get('/notes', function(res, req) {
+    res.json(database);
+});
+
+router.post("/notes", function(req,res) {
+    database.push(newTask);
+    fs.readFileSync(path.join(__dirname, '../../db/db/json'), JSON.stringify(database, null, 2));
+    res.json();
     });
 
-    app.post("/api/notes", function(req,res) {
-        fs.readFile('./db/db/json');
-        JSON.parse(data).push(req.body);
 
-        fs.writeFile('/db/db.json');
-        res.json(req.body)
-    });
-};
+module.exports = router;
