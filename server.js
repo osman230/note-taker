@@ -4,7 +4,7 @@ const app = express();
 
 //
 app.use(express.json());
-app.use(express.static('./develop/public'));
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 //listening
