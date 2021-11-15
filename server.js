@@ -6,10 +6,12 @@ const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+app.use('/api', apiRoutes);
+app.use('/', htmlRoutes);
 
 //routes
-require("./routes/apiRoutes")(app);
-require("./routes/htmlRoutes")(app);
+const apiRoutes = require("./routes/apiRoutes/apiRoutes");
+const htmlRoutes = require("./routes/htmlRoutes/htmlRoutes");
 
 //listening
 app.listen(PORT, () => {
