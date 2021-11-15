@@ -1,31 +1,50 @@
 const fs = require('fs');
-const express = require('express');
-const path = require('path');
-const database = require('./develop/db/db.json');
+const {
+    v4: uuidv4
+} = require('uuid');
 
-//
-const newTask = req.body;
-const data = req.param.id;
-const task = JSON.parse()
-const newData = task.filter(({id}) => id !== data);
-//
-module_exports = function(app) {
-    app.get("./develop/public/assets/notes.html", function(req,res) {
-        fs.readFile(database);
+module.exports = (app) => {
+    app.get('/api/notes', (req, res) => {
+        fs.readFile('./db/db.json', (err, data) => {
+            if (err) throw err;
+            let notes = JSON.parse(data);
+            res.json(notes);
+        });
     });
 
-    app.post("./develop/public/assets/notes.html", function(req,res) {
-        fs.readFile('./develop/db/db.json');
-        JSON.parse(data).push(req.body);
+    app.post('/api/notes', (req, res) => {
+        const newNote = req.body;
+        newNote.id = uuidv4();
 
-        fs.writeFile('./develop/db/db.json');
-        res.json(req.body)
+        fs.readFile('./db/db.json', (err, data) => {
+            if (err) throw err;
+            const notes = JSON.parse(data);
+            notes.push(newNote)
+
+            fs.writeFile('./db/db.json', JSON.stringify(notes), (err) => {
+                if (err) throw err;
+                res.json(newNote);
+            });
+        });
+    })
+
+    app.delete('/api/notes/:noteId', (req, res) => {
+        const chosen = req.params.noteId
+        console.log(chosen)
+
+        fs.readFile('./db/db.json', (err,data) => {
+            if(err) throw err;
+            const notes = JSON.parse(data);
+            console.log(notes)
+
+            const newNotesArray = notes.filter(({id}) => id !== chosen);
+
+            console.log(newNotesArray);
+
+            fs.writeFile('./db/db.json', JSON.stringify(newNotesArray), (err) => {
+                if(err) throw err;
+                res.json(newNotesArray)
+            });
+        });
     });
-
-    app.delete('./develop/public/assets/notes.html/:id', function(req,res) {
-        fs.readFile('./develop/db/db/json');
-
-        fs.writeFile('./develop/db/db.json', JSON.stringify(newData));
-        res.json(newData);
-    });
-};
+}
