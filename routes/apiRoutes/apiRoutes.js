@@ -1,7 +1,7 @@
 const fs = require('fs');
 const express = require('express');
 const path = require('path');
-const database = require('./develop/db/db.json');
+const database = require('./db/db.json');
 
 //
 const newTask = req.body;
