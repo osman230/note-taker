@@ -1,5 +1,5 @@
 const fs = require('fs');
-const express = require('express');
+const app = require('express');
 const path = require('path');
 const database = require('../../db/db.json');
 
@@ -9,6 +9,7 @@ const database = require('../../db/db.json');
 // const newData = task.filter(({id}) => id !== data);
 //
 
+module.exports = (function(app) {
 app.get('/notes', function(res, req) {
     res.json(database);
 });
@@ -19,4 +20,4 @@ app.post("/notes", function(req,res) {
     res.json();
     });
 
-
+});
