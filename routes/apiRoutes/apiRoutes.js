@@ -10,11 +10,11 @@ const task = JSON.parse()
 const newData = task.filter(({id}) => id !== data);
 //
 module_exports = function(app) {
-    app.get("/api/notes", function(req,res) {
+    app.get("./develop/public/assets/notes.html", function(req,res) {
         fs.readFile(database);
     });
 
-    app.post("/api/notes", function(req,res) {
+    app.post("./develop/public/assets/notes.html", function(req,res) {
         fs.readFile('./develop/db/db.json');
         JSON.parse(data).push(req.body);
 
@@ -22,7 +22,7 @@ module_exports = function(app) {
         res.json(req.body)
     });
 
-    app.delete('/api/notes/:id', function(req,res) {
+    app.delete('./develop/public/assets/notes.html/:id', function(req,res) {
         fs.readFile('./develop/db/db/json');
 
         fs.writeFile('./develop/db/db.json', JSON.stringify(newData));
