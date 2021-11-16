@@ -42,7 +42,6 @@ app.get("/api/notes", function(err, res) {
 
 // writes the new note to the json file
 app.post("/api/notes", function(req, res) {
-  try {
     // reads the json file
     notesData = fs.readFileSync("./db/db.json", "utf8");
     console.log(notesData);
@@ -56,19 +55,9 @@ app.post("/api/notes", function(req, res) {
     // make it string(stringify)so you can write it to the file
     notesData = JSON.stringify(notesData);
     // writes the new note to file
-    fs.writeFile("./db/db.json", notesData, "utf8", function(err) {
-      // error handling
-      if (err) throw err;
-    });
-    // changeit back to an array of objects & send it back to the browser(client)
-    res.json(JSON.parse(notesData));
-
-    // error Handling
-  } catch (err) {
-    throw err;
-    console.error(err);
-  }
+    fs.writeFile("./db/db.json", notesData, "utf8");
 });
+
 
 
 
