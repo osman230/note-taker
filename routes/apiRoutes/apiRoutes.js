@@ -20,3 +20,13 @@ app.post("/api/notes", function(req,res) {
     });
 
 });
+
+app.post("/api/notes", function(req, res) {
+      data = fs.readFileSync("../../db/db.json", "utf8");
+      task = JSON.parse(task);
+      req.body.id = notesData.length;
+      task.push(req.body); 
+      task = JSON.stringify(data);
+      fs.writeFile("../../db/db.json", task, "utf8");
+      res.json(JSON.parse(task));
+    });
