@@ -21,12 +21,13 @@ app.get("/api/notes", (req, res) => {
 });
 
 app.post("/api/notes", (req, res) => {
-    newTask = fs.readFileSync("./db/db.json");
-    newTask = JSON.parse(newTask);
+    newTask = JSON.parse(fs.readFileSync("./db/db.json"));
     req.body.id = newTask.length;
     newTask.push(req.body);
     newTask = JSON.stringify(newTask);
-    fs.writeFile("./db/db.json", newTask);
+    fs.writeFile("./db/db.json", newTask, (error) => {
+      if (error) throw error;
+    });
     res.json(JSON.parse(newTask));
 });
 
