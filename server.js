@@ -10,9 +10,9 @@ const app = express();
 // Sets an Initial port for listeners
 const PORT = process.env.PORT || 9001;
 
-//  Initialize newTask
+//  Initialize notesData
 
-let newTask = [];
+let notesData = [];
 
 // Set up body parsing, static, and route middleware
 app.use(express.json());
@@ -37,24 +37,24 @@ app.get("*", function(req, res) {
 
 app.get("/api/notes", function(err, res) {
   try {
-    newTask = fs.readFileSync("./db/db.json", "utf8");
-    newTask = JSON.parse(newTask);
+    notesData = fs.readFileSync("./db/db.json", "utf8");
+    notesData = JSON.parse(notesData);
   } catch (err) {
   }
-  res.json(newTask);
+  res.json(notesData);
 });
 
 app.post("/api/notes", function(req, res) {
   try {
-    newTask = fs.readFileSync("./db/db.json", "utf8");
-    newTask = JSON.parse(newTask);
-    req.body.id = newTask.length;
-    newTask.push(req.body);
-    newTask = JSON.stringify(newTask);
-    fs.writeFile("./db/db.json", newTask, "utf8", function(err) {
+    notesData = fs.readFileSync("./db/db.json", "utf8");
+    notesData = JSON.parse(notesData);
+    req.body.id = notesData.length;
+    notesData.push(req.body);
+    notesData = JSON.stringify(notesData);
+    fs.writeFile("./db/db.json", notesData, "utf8", function(err) {
       if (err) throw err;
     });
-    res.json(JSON.parse(newTask));
+    res.json(JSON.parse(notesData));
   } catch (err) {
     throw err;
   }
