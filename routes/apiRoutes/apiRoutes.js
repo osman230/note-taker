@@ -12,15 +12,17 @@ const app = express();
 module.exports = (function(app) {
 app.get('/api/notes', function(req, res) {
     res.json(database);
-});
-
-app.post("/api/notes", function(req,res) {
-    database.push(req.body);
-    fs.readFileSync(path.join(__dirname, '../../db/db.json'), JSON.stringify(database, null, 2));
-    res.json();
     });
-
 });
+
+
+// app.post("/api/notes", function(req,res) {
+//     database.push(req.body);
+//     fs.readFileSync(path.join(__dirname, '../../db/db.json'), JSON.stringify(database, null));
+//     res.json();
+//     });
+
+// });
 
 app.post("/api/notes", function(req, res) {
       data = fs.readFileSync("../../db/db.json", "utf8");
