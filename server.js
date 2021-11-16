@@ -26,8 +26,8 @@ app.post("/api/notes", (req, res) => {
     req.body.id = newTask.length;
     newTask.push(req.body);
     newTask = JSON.stringify(newTask);
-    fs.writeFile("./db/db.json", newTask, (err) => {
-      if (err) throw err;
+    fs.writeFile("./db/db.json", newTask, (error) => {
+      if (error) throw error;
     });
     res.json(JSON.parse(newTask));
 });
