@@ -41,20 +41,23 @@ app.get("/api/notes", function(err, res) {
 });
 
 // writes the new note to the json file
-app.post("/api/notes", function (req, res) {
-  var newNote = req.body;
-
-  newNote["id"] = currentID +1;
-  currentID++;
-  console.log(newNote);
-
+app.post("/api/notes", (req, res) => {
+  const newNote = req.body;
+  if (notes.length === 0){
+    newNote.id = 1
+  } else {
+    newNote.id = (notes[notes.length-1].id + 1);
+  }
   notes.push(newNote);
-
-  rewriteNotes();
-
-  return res.status(200).end();
-});
-
+  let jsonNotes = JSON.stringify(notes)
+  fs.writeFile("./db/db.json", jsonNotes, function(err) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("Success!");
+  })
+  res.json(true)
+})
 
 
 // HTML GET Requests
