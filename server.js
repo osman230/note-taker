@@ -22,12 +22,12 @@ app.get("/api/notes", (req, res) => {
 app.post("/api/notes", (req, res) => {
     newTask = JSON.parse(fs.readFileSync("./db/db.json"));
     req.body.id = newTask.length;
+    newTask.push(req.body);
     newTask = JSON.stringify(newTask);
-    newTask.push(req.body); 
     fs.writeFile("./db/db.json", newTask, (error) => {
       if (error) throw error;
     });
-    res.json(JSON.parse(newTask));
+    res.json(newTask);
 });
 
 // html routes
