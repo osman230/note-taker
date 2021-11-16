@@ -3,6 +3,9 @@ const path = require("path");
 const express = require("express");
 const PORT = process.env.PORT || 3000;
 const app = express();
+
+// parse?
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,12 +21,12 @@ app.get("/api/notes", (req, res) => {
 });
 
 app.post("/api/notes", (req, res) => {
-    newTask = fs.readFileSync("./db/db.json", "utf8");
+    newTask = fs.readFileSync("./db/db.json");
     newTask = JSON.parse(newTask);
     req.body.id = newTask.length;
     newTask.push(req.body);
     newTask = JSON.stringify(newTask);
-    fs.writeFile("./db/db.json", newTask, "utf8", (err) => {
+    fs.writeFile("./db/db.json", newTask, (err) => {
       if (err) throw err;
     });
     res.json(JSON.parse(newTask));
@@ -44,6 +47,7 @@ app.get("*", (req, res) => {
 });
 
 // listening
+
 app.listen(PORT, () => {
   console.log("App is listening: " + PORT);
 });
