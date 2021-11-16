@@ -9,13 +9,13 @@ const database = require('../../db/db.json');
 //
 
 module.exports = (function(app) {
-app.get('/notes', function(res, req) {
+app.get('/api/notes', function(req, res) {
     res.json(database);
 });
 
-app.post("/notes", function(req,res) {
+app.post("/api/notes", function(req,res) {
     database.push(req.body);
-    fs.readFileSync(path.join(__dirname, '../../db/db/json'), JSON.stringify(database, null, 2));
+    fs.readFileSync(path.join(__dirname, '../../db/db.json'), JSON.stringify(database, null, 2));
     res.json();
     });
 
