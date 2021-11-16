@@ -41,23 +41,19 @@ app.get("/api/notes", function(err, res) {
 });
 
 // writes the new note to the json file
-app.post("/api/notes", function(req, res) {
-    // reads the json file
-    notesData = fs.readFileSync("./db/db.json", "utf8");
-    console.log(notesData);
+app.post("/api/notes", function (req, res) {
+  var newNote = req.body;
 
-    // parse the data to get an array of objects
-    notesData = JSON.parse(notesData);
-    // Set new notes id
-    req.body.id = notesData.length;
-    // add the new note to the array of note objects
-    notesData.push(req.body); // req.body - user input
-    // make it string(stringify)so you can write it to the file
-    notesData = JSON.stringify(notesData);
-    // writes the new note to file
-    fs.writeFile("./db/db.json", notesData, "utf8");
+  newNote["id"] = currentID +1;
+  currentID++;
+  console.log(newNote);
+
+  notes.push(newNote);
+
+  rewriteNotes();
+
+  return res.status(200).end();
 });
-
 
 
 
