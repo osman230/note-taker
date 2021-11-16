@@ -6,9 +6,13 @@ A note-taker tool.
 
 ## Built with
 express
+
 node.js
+
 javascript
+
 html
+
 css
 
 ## Website
