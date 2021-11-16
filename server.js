@@ -22,14 +22,22 @@ app.get("/api/notes", function(req, res) {
 });
 
 // api routes 
-
 let task = [];
 app.get("/api/notes", function(err, res) {
+  try {
+    // reads the notes from json file
     task = fs.readFileSync("./db/db.json", "utf8");
     console.log("hello!");
+    // parse it so task is an array of objects
+    task = JSON.parse(task);
 
-    task = JSON.parse(task);  
-    res.json(task);
+    // error handling
+  } catch (err) {
+    console.log("\n error (in app.get.catch):");
+    console.log(err);
+  }
+  //   send objects to the browser
+  res.json(task);
 });
 
 // writes the new note to the json file
