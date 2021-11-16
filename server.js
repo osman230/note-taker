@@ -12,16 +12,12 @@ app.use(express.json());
 let newTask = [];
 
 app.get("/api/notes", (req, res) => {
-  try {
     newTask = fs.readFileSync("./db/db.json", "utf8");
     newTask = JSON.parse(newTask);
-  } catch (err) {
-  }
-  res.json(newTask);
+    res.json(newTask);
 });
 
 app.post("/api/notes", (req, res) => {
-  try {
     newTask = fs.readFileSync("./db/db.json", "utf8");
     newTask = JSON.parse(newTask);
     req.body.id = newTask.length;
@@ -31,9 +27,6 @@ app.post("/api/notes", (req, res) => {
       if (err) throw err;
     });
     res.json(JSON.parse(newTask));
-  } catch (err) {
-    throw err;
-  }
 });
 
 // html routes
