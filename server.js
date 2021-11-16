@@ -23,28 +23,54 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // api call response for all the notes, and sends the results to the browser as an array of object
 
-app.get("/api/notes/:id", function(req, res) {
+app.get("/api/notes", function(err, res) {
+  try {
+    // reads the notes from json file
+    notesData = fs.readFileSync("./db/db.json", "utf8");
+    console.log("hello!");
+    // parse it so notesData is an array of objects
+    notesData = JSON.parse(notesData);
 
-  res.json(data[Number(req.params.id)]);
-
+    // error handling
+  } catch (err) {
+    console.log("\n error (in app.get.catch):");
+    console.log(err);
+  }
+  //   send objects to the browser
+  res.json(notesData);
 });
 
-
+// writes the new note to the json file
 app.post("/api/notes", function(req, res) {
+  try {
+    // reads the json file
+    notesData = fs.readFileSync("./db/db.json", "utf8");
+    console.log(notesData);
 
-  let newNote = req.body;
-  let uniqueId = (data.length).toString();
-  console.log(uniqueId);
-  newNote.id = uniqueId;
-  data.push(newNote);
-  
-  fs.writeFileSync("./db/db.json", JSON.stringify(data), function(err) {
-      if (err) throw (err);        
-  }); 
+    // parse the data to get an array of objects
+    notesData = JSON.parse(notesData);
+    // Set new notes id
+    req.body.id = notesData.length;
+    // add the new note to the array of note objects
+    notesData.push(req.body); // req.body - user input
+    // make it string(stringify)so you can write it to the file
+    notesData = JSON.stringify(notesData);
+    // writes the new note to file
+    fs.writeFile("./db/db.json", notesData, "utf8", function(err) {
+      // error handling
+      if (err) throw err;
+    });
+    // changeit back to an array of objects & send it back to the browser(client)
+    res.json(JSON.parse(notesData));
 
-  res.json(data);    
-
+    // error Handling
+  } catch (err) {
+    throw err;
+    console.error(err);
+  }
 });
+
+
 
 // HTML GET Requests
 
