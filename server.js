@@ -15,8 +15,7 @@ app.use(express.json());
 let newTask = [];
 
 app.get("/api/notes", (req, res) => {
-    newTask = fs.readFileSync("./db/db.json");
-    newTask = JSON.parse(newTask);
+    newTask = JSON.parse(fs.readFileSync("./db/db.json"));
     res.json(newTask);
 });
 
@@ -24,11 +23,11 @@ app.post("/api/notes", (req, res) => {
     newTask = JSON.parse(fs.readFileSync("./db/db.json"));
     req.body.id = newTask.length;
     newTask = JSON.stringify(newTask);
-    newTask.push(req.body);
+    newTask.push(req.body); 
     fs.writeFile("./db/db.json", newTask, (error) => {
       if (error) throw error;
     });
-    res.json(newTask);
+    res.json(JSON.parse(newTask));
 });
 
 // html routes
